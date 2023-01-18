@@ -5,8 +5,11 @@ using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
+    public int howManyPowerUps; 
+    public bool hasPowerUpTooLong; 
+    public float powerUpLoss = 0f; 
+    public float totalLost; 
     public float thrust = 100.0f; 
-    private Rigidbody2D rigidbody2D; 
     private Transform ownTransform; 
     public Transform respawnSpot; 
     public float healthLost = .25f;
@@ -17,7 +20,6 @@ public class PlayerHealth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rigidbody2D = GetComponent<Rigidbody2D>(); 
         ownTransform = GetComponent<Transform>(); 
         heart = 0; 
     }
@@ -25,7 +27,14 @@ public class PlayerHealth : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (images[heart].fillAmount == 0f)
+        if (hasPowerUpTooLong == true)
+        {
+            StartCoroutine(PowerUpDamage());
+        }
+
+        images[heart].fillAmount -= powerUpLoss; 
+
+        if (images[heart].fillAmount <= 0f)
         {
             images[heart].gameObject.SetActive(false);
             parents[heart].gameObject.SetActive(false);
@@ -64,4 +73,26 @@ public class PlayerHealth : MonoBehaviour
             parents[i].gameObject.SetActive(true);
         }
     }
+
+    private IEnumerator PowerUpDamage()
+    {
+        while(hasPowerUpTooLong)
+        {
+            switch (howManyPowerUps)
+            {
+                case 1:
+                    images[heart].fillAmount -= 0.0001f;
+                    yield return new WaitForSeconds(5f);
+                    break;
+                case 2:
+                    images[heart].fillAmount -= 0.001f;
+                    yield return new WaitForSeconds(5f);
+                    break;
+            }
+            yield return new WaitForSeconds(5f);
+        }
+      
+
+    }
+
 }
