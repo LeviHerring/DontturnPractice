@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class Powerups : MonoBehaviour
 {
+    public float hold;
+    public bool hasbeenPressedBefore; 
     public bool[] hasPressedOnce;
     PlayerHealth playerHealth; 
     public float timer = 0f; 
@@ -24,10 +26,16 @@ public class Powerups : MonoBehaviour
     void Update()
     {
         timer -= Time.deltaTime;
-        metre.fillAmount = timer/3;
-
-        if (timer >= 3f && PressedOnce == false)
+        if(hasbeenPressedBefore)
         {
+            //timer = hold; 
+            metre.fillAmount = timer / 3;
+        }
+      
+
+        if (timer >= 3f && hasbeenPressedBefore == false)
+        {
+            hold = 3f; 
             timer = 3f; 
         }
 
@@ -35,7 +43,7 @@ public class Powerups : MonoBehaviour
         {
             timer = 0f; 
               
-            if (PressedOnce == true)
+            if (hasbeenPressedBefore == true)
             {
                 playerHealth.hasPowerUpTooLong = true;
                 foreach (bool i in hasPressedOnce)
@@ -62,24 +70,28 @@ public class Powerups : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.P) && hasPressedOnce[0] == false)
         {
             timer = 3f;
+            hasbeenPressedBefore = true; 
             //StartCoroutine(SpeedUp()); 
             SpeedUpFunctionOn(); 
 
         }
         else if (Input.GetKeyDown(KeyCode.P) && hasPressedOnce[0] == true)
         {
-            SpeedUpFunctionOff(); 
+            SpeedUpFunctionOff();
+            hasbeenPressedBefore = false; 
         }
 
         if (Input.GetKeyDown(KeyCode.O) && hasPressedOnce[1] == false)
         {
-            if(hasPressedOnce[0] == false)
+            if (hasbeenPressedBefore == false)
             {
                 timer = 3f;
+                hasbeenPressedBefore = true;
                 JumpHigherFunctionOn();
             }
             else
             {
+                hasbeenPressedBefore = true; 
                 JumpHigherFunctionOn();
             }
            
@@ -90,7 +102,8 @@ public class Powerups : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.O) && hasPressedOnce[1] == true)
         {
             //StartCoroutine(JumpHigher()); 
-            JumpHigherFunctionOff(); 
+            JumpHigherFunctionOff();
+            hasbeenPressedBefore = false; 
 
         }
     }
@@ -138,6 +151,8 @@ public class Powerups : MonoBehaviour
     {
         hasPressedOnce[1] = false;
         playerMovement.jumpingPower /= 2f;
+        hold = timer; 
+        metre.fillAmount = hold; 
 
     }
 

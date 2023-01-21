@@ -81,11 +81,11 @@ public class PlayerHealth : MonoBehaviour
             switch (howManyPowerUps)
             {
                 case 1:
-                    images[heart].fillAmount -= 0.0001f;
+                    images[heart].fillAmount -= 0.1f;
                     yield return new WaitForSeconds(5f);
                     break;
                 case 2:
-                    images[heart].fillAmount -= 0.001f;
+                    images[heart].fillAmount -= 0.01f;
                     yield return new WaitForSeconds(5f);
                     break;
             }
