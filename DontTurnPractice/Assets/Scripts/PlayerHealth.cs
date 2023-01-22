@@ -68,7 +68,11 @@ public class PlayerHealth : MonoBehaviour
         {
             case "Spike":
                 images[heart].fillAmount -= healthLost; 
-                break; 
+                break;
+            case "Enemy":
+                images[heart].fillAmount -= 0.01f;
+                break;
+
         }
     }
 

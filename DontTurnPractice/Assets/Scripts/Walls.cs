@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Walls : MonoBehaviour
 {
-    public Transform spawnLocation; 
+    public Transform spawnLocation;
+     
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +25,8 @@ public class Walls : MonoBehaviour
         {
             collision.gameObject.transform.position = spawnLocation.position; 
         }
+        
     }
+
 
 }

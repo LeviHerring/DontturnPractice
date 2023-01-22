@@ -45,4 +45,5 @@ public class Combat : MonoBehaviour
         punch++;
         animator.SetInteger("punches", punch);
     }
+
 }
