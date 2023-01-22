@@ -27,9 +27,21 @@ public class PlayerHealth : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+
         if (hasPowerUpTooLong == true)
         {
-            StartCoroutine(PowerUpDamage());
+
+                switch (howManyPowerUps)
+                {
+                    case 1:
+                    StartCoroutine(PowerUpDamage(0.1f));
+                    break;
+                    case 2:
+                    StartCoroutine(PowerUpDamage(0.0001f));
+                    break;
+                }
+            
         }
 
         images[heart].fillAmount -= powerUpLoss; 
@@ -74,25 +86,17 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    private IEnumerator PowerUpDamage()
+    private IEnumerator PowerUpDamage(float damage)
     {
-        while(hasPowerUpTooLong)
+        while (hasPowerUpTooLong == true)
         {
-            switch (howManyPowerUps)
-            {
-                case 1:
-                    images[heart].fillAmount -= 0.1f;
-                    yield return new WaitForSeconds(5f);
-                    break;
-                case 2:
-                    images[heart].fillAmount -= 0.01f;
-                    yield return new WaitForSeconds(5f);
-                    break;
-            }
-            yield return new WaitForSeconds(5f);
+            images[heart].fillAmount -= damage;
+            yield return new WaitForSeconds(1f);
         }
+    
+    }
       
 
     }
 
-}
+

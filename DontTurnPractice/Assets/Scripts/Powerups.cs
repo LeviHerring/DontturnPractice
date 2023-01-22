@@ -18,6 +18,7 @@ public class Powerups : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        hold = 3;
         playerHealth = GetComponent<PlayerHealth>(); 
         projectileFire = GetComponentInChildren<ProjectileFire>(); 
     }
@@ -35,13 +36,14 @@ public class Powerups : MonoBehaviour
 
         if (timer >= 3f && hasbeenPressedBefore == false)
         {
-            hold = 3f; 
+            //hold = 3f; 
             timer = 3f; 
         }
 
         if(timer <= 0f)
         {
-            timer = 0f; 
+            timer = 0f;
+            hold = 3f; 
               
             if (hasbeenPressedBefore == true)
             {
@@ -69,7 +71,7 @@ public class Powerups : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.P) && hasPressedOnce[0] == false)
         {
-            timer = 3f;
+            timer = hold;
             hasbeenPressedBefore = true; 
             //StartCoroutine(SpeedUp()); 
             SpeedUpFunctionOn(); 
@@ -83,27 +85,20 @@ public class Powerups : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.O) && hasPressedOnce[1] == false)
         {
-            if (hasbeenPressedBefore == false)
-            {
-                timer = 3f;
-                hasbeenPressedBefore = true;
-                JumpHigherFunctionOn();
-            }
-            else
-            {
-                hasbeenPressedBefore = true; 
-                JumpHigherFunctionOn();
-            }
-           
+            timer = hold;
+            hasbeenPressedBefore = true;
+            //StartCoroutine(SpeedUp()); 
+            JumpHigherFunctionOn();
+
             //StartCoroutine(JumpHigher()); 
-            
+
 
         }
         if (Input.GetKeyDown(KeyCode.O) && hasPressedOnce[1] == true)
         {
             //StartCoroutine(JumpHigher()); 
-            JumpHigherFunctionOff();
-            hasbeenPressedBefore = false; 
+            JumpHigherFunctionOff(); 
+            hasbeenPressedBefore = false;
 
         }
     }
@@ -137,22 +132,26 @@ public class Powerups : MonoBehaviour
     public void SpeedUpFunctionOff()
     {
         playerMovement.speed /= 1.25f;
+        hold = timer;
         hasPressedOnce[0] = false;
     }
 
     public void JumpHigherFunctionOn()
     {
+        Debug.Log("Into function"); 
         hasPressedOnce[1] = true;
+        Debug.Log(hasPressedOnce[1]); 
         playerMovement.jumpingPower *= 2f;
 
     }
 
     public void JumpHigherFunctionOff()
     {
-        hasPressedOnce[1] = false;
+       
         playerMovement.jumpingPower /= 2f;
-        hold = timer; 
-        metre.fillAmount = hold; 
+        hold = timer;
+        hasPressedOnce[1] = false;
+
 
     }
 
